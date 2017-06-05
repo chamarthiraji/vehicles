@@ -4,12 +4,12 @@ VEHICLE_SERVICE_PORT=53000
 
 [GoogleCloudInfo]
 GC_LOCAL_DIR=static/gcimages
-BUCKET_NAME=rajpics
-PROJECT_ID=molten-hall-161702
-CLIENT_ID=974636032328-8rnnujbmpn60et5dl14ubnichpf6nlui.apps.googleusercontent.com
-CLIENT_SECRET=n1R7PDuPAFsk007LgdEWQdo8
-URI=https://www.googleapis.com/storage/v1/b
-PROJECT_NUM=974636032328
+BUCKET_NAME=*
+PROJECT_ID=*
+CLIENT_ID=*
+CLIENT_SECRET=*
+URI=*
+PROJECT_NUM=*
 
 [ServerLocalFileData]
 UPLOAD_IMAGE_LOCAL_DIR=static/upimages
