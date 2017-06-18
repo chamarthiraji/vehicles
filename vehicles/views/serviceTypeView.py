@@ -7,7 +7,7 @@ from __init__ import exc
 import sys
 # sys.path.append("vehicleapp/models")
 from models.serviceType import ServiceType
-# from vehicleapp.models import 
+# from vehicleapp.models import
 
 import json
 
@@ -29,11 +29,11 @@ def addservicetype():
 			"status": True,
 			"description": "New entry was successfully posted"
 		}
-	)  
- 
+	)
+
 	return app.response_class(json.dumps(response2), content_type='application/json')
-  
-   
+
+
 @app.route('/listservicetypes', methods=['POST', 'GET'])
 def listservicetypes():
 	# http://127.0.0.1:53000/listservicetypes
@@ -47,8 +47,8 @@ def listservicetypes():
 			"name":lservicetype.name,
 			"display_name":lservicetype.display_name,
 			"description":lservicetype.description
-			})     
- 
+			})
+
 	return app.response_class(json.dumps(service_type_list), content_type='application/json')
 
  # view for editing service types
@@ -69,8 +69,8 @@ def editservicetypes():
     if (data['id']):
         try:
             record = l_serviceType.one()
-            recexists = 1            
-        except Exception: 
+            recexists = 1
+        except Exception:
             print("No service type record in DB")
             pass
         finally:
@@ -81,7 +81,7 @@ def editservicetypes():
         print("id:"+str(record.id))
         print("service name:"+str(record.name))
         print("sdisplay_text:"+str(record.display_name))
-        
+
 
     if ( recexists == 1) and (l_serviceType.count() > 0):
         print("trying to update new values")
@@ -91,22 +91,23 @@ def editservicetypes():
 
     if ( recexists == 0):
 
-        servicetypes = ServiceType(data['serviceName'],
-                                   data['sDisplayName'],
-                                   data['sDescription'])
-        db.session.add(servicetypes)         
+        servicetypes = ServiceType(
+			data['serviceName'],
+            data['sDisplayName'],
+            data['sDescription']
+		)
+        db.session.add(servicetypes)
 
-    exceptio_info=0
-    try:
+    exception_info=0
 
+	try:
         db.session.commit()
-
     except exc.IntegrityError as err:
         print("exception")
         db.session.rollback()
         if "Duplicate entry" in str(err):
             print("Duplicate exception")
-            exceptio_info = 1
+            exception_info = 1
             response = {
                     "status" : False,
                     "description" : "IntegrityError error, ServiceType already exists"
@@ -118,19 +119,19 @@ def editservicetypes():
                     "status" : False,
                     "description" : "unknown error adding/updating ServiceType info"
                 }
-            return app.response_class(json.dumps(response), content_type='application/json') 
+            return app.response_class(json.dumps(response), content_type='application/json')
 
     finally:
 
             print("finally")
-    if ( exceptio_info>0):
+    if ( exception_info > 0):
         response2 = (
             {
                 "status": False,
                 "description": "Exception occured while processing record"
             }
         )
-    if ( exceptio_info == 0):
+    if ( exception_info == 0):
         response2 = (
             {
                 "status": True,
@@ -150,7 +151,7 @@ def deleteservicetype():
     try:
         ServiceType.query.filter_by(id=data['id']).delete()
         db.session.commit()
-    except Exception: 
+    except Exception:
         print("No ServiceType record in DB")
         pass
         print("Other exception")
@@ -158,7 +159,7 @@ def deleteservicetype():
             "status" : False,
             "description" : "unknown error deleting ServiceType info"
         }
-        return app.response_class(json.dumps(response), content_type='application/json') 
+        return app.response_class(json.dumps(response), content_type='application/json')
 
     finally:
         print("Deleted the ServiceType data from DB")
@@ -171,4 +172,3 @@ def deleteservicetype():
     )
 
     return app.response_class(json.dumps(response), content_type='application/json')
-

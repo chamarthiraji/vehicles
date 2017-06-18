@@ -4,15 +4,13 @@ from __init__ import UniqueConstraint
 class VehicleType(db.Model):
 
 	__tablename__ = "VehicleType"
-	
+
 	id = db.Column(db.Integer, primary_key=True)
 	# car, crossover, truck, suv, etc
 	type = db.Column(db.String(128), nullable=False)
 	# Car, Crossover (small SUV), Truck, SUV, etc
 	display_text = db.Column(db.String(128), nullable=False)
-	available_servicesref = db.relationship('AvailableServices'
-		, backref = 'VehicleType'
-		, lazy = 'joined')   
+	available_servicesref = db.relationship('AvailableServices', backref = 'VehicleType', lazy = 'joined')
 
 	__table_args__ = (
 		UniqueConstraint("type", name="uk_vehicleType"),

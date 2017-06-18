@@ -31,7 +31,7 @@ migrate = Migrate(app, db)
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-from models import serviceType
+from vehicleapp.models import serviceType
 from models import vehicleType
 from models import vehicleCondition
 from models import location
