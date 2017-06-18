@@ -16,7 +16,6 @@ class Location(DB.Model):
             self.location = location
 
 
-
 class ServiceType(DB.Model):
 
     __tablename__ = "service_types"
@@ -38,7 +37,7 @@ class SpecialService(DB.Model):
     __tablename__ = "special_services"
 
     id = DB.Column(DB.Integer, primary_key=True)
-    vehicle_type_id = DB.Column(DB.Integer, DB.ForeignKey('VehicleType.id'))  # foreign key to vehicle type
+    vehicle_type_id = DB.Column(DB.Integer, DB.ForeignKey('vehicle_types.id'))  # foreign key to vehicle type
     # $20 for mini on a car, $40 for full interior on truck, etc
     name = DB.Column(DB.String(128), nullable=False)
     question = DB.Column(DB.String(128), nullable=False)
@@ -57,7 +56,7 @@ class SpecialService(DB.Model):
 
 class VehicleCondition(DB.Model):
 
-    __tablename__ = "vehicle_condition"
+    __tablename__ = "vehicle_conditions"
 
     id = DB.Column(DB.Integer, primary_key=True)
     condition = DB.Column(DB.String(128), nullable=False, unique=True) # excellent, good, fair, dirty, etc...
@@ -68,14 +67,14 @@ class VehicleCondition(DB.Model):
 
 class VehicleType(DB.Model):
 
-    __tablename__ = "VehicleType"
+    __tablename__ = "vehicle_types"
 
     id = DB.Column(DB.Integer, primary_key=True)
     # car, crossover, truck, suv, etc
     type = DB.Column(DB.String(128), nullable=False, unique=True)
     # Car, Crossover (small SUV), Truck, SUV, etc
     display_text = DB.Column(DB.String(128), nullable=False)
-    available_servicesref = DB.relationship('AvailableService', backref = 'VehicleType', lazy = 'joined')
+    available_servicesref = DB.relationship('AvailableService', backref='VehicleType', lazy='joined')
 
     def __init__(self, type, display_text):
         self.type = type
@@ -88,9 +87,9 @@ class AvailableService(DB.Model):
 
     # """ vehicle type and service type are composite primary key """
     id = DB.Column(DB.Integer, primary_key=True)
-    vehicle_type_id = DB.Column(DB.Integer, DB.ForeignKey('VehicleType.id'))  # foreign key to vehicle type
-    service_type_id = DB.Column(DB.Integer, DB.ForeignKey('ServiceType.id'))  # foreign key to service type
-    vehicle_condition_id = DB.Column(DB.Integer, DB.ForeignKey('VehicleCondition.id'))
+    vehicle_type_id = DB.Column(DB.Integer, DB.ForeignKey('vehicle_types.id'))  # foreign key to vehicle type
+    service_type_id = DB.Column(DB.Integer, DB.ForeignKey('service_types.id'))  # foreign key to service type
+    vehicle_condition_id = DB.Column(DB.Integer, DB.ForeignKey('vehicle_conditions.id'))
 
     # $20 for mini on a car, $40 for full interior on truck, etc
     base_price = DB.Column(DB.Float, nullable=True)

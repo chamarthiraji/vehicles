@@ -1,7 +1,10 @@
 #!/bin/bash
 
-cd ../vehicles
+cd ../vehicles/vehicles
 rm -R migrations
+pwd
+
+sleep 5
 
 mysql --user="root" --execute="CREATE USER 'vehicles'@'localhost' IDENTIFIED BY '$VEHICLES_DB_PASSWORD';"
 mysql --user="root" --execute="GRANT ALL ON vehiclesdb.* TO 'vehicles'@'localhost';"
@@ -13,5 +16,3 @@ python manage.py db migrate
 python manage.py db upgrade
 
 cd ..
-
-vehicles-run
