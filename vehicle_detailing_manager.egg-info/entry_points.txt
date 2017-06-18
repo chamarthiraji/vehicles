@@ -1,4 +1,0 @@
-[console_scripts]
-vehicles-run = vehicles.cmd.run:main
-vehicles-run-test = vehicles.cmd.run:main_test
-
