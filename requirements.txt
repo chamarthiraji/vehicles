@@ -3,6 +3,7 @@ PyMySQL
 requests
 configparser
 GoogleAppEngineCloudStorageClient
+flask_restless
 Flask-Migrate
 Flask-SQLAlchemy
 mom

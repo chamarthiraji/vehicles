@@ -21,6 +21,7 @@ setup(
         'boto',
         'configparser',
         'flask',
+        'flask_restless',
         'flask-cors',
         'Flask-Migrate',
         'Flask-SQLAlchemy',
