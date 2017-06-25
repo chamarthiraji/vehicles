@@ -22,12 +22,12 @@ import SpecialServices
 module.exports = (
   <Router history={browserHistory}>
     <Route path="/" component={Main}>
-    	<IndexRoute	component={Home} />
-    	<Route path="gallery" component={Gallery} />
-    	<Route path="price" component={Price} />
-    	<Route path="schedule" component={Schedule} />
-    	<Route path="admin" component={Admin} />
-    	<Route  path="vehicles" component={VehiclesPage}/>
+        <IndexRoute    component={Home} />
+        <Route path="gallery" component={Gallery} />
+        <Route path="price" component={Price} />
+        <Route path="schedule" component={Schedule} />
+        <Route path="admin" component={Admin} />
+        <Route  path="vehicles" component={VehiclesPage}/>
 
       <Route  path="vehicleServices"
         component={VehicleServices}/>

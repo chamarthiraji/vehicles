@@ -8,26 +8,26 @@ import VehicleConditions from './VehicleConditions';
 
 export default class VehicleServices extends React.Component {
 
-	constructor(){
-		super();
-		this.state = {};
-		console.log("from VehicleServices ");
-	}
-	
-	render(){
-		return (
-			<div className="row"> 
-				<div className="col-md-4">
-					<Zipcodes />
-				</div>
-				<div className="col-md-4">
-					<Locations />
-				</div>
-				<div className="col-md-4">
-					<VehicleConditions />
-				</div>
+    constructor(){
+        super();
+        this.state = {};
+        console.log("from VehicleServices ");
+    }
+    
+    render(){
+        return (
+            <div className="row"> 
+                <div className="col-md-4">
+                    <Zipcodes />
+                </div>
+                <div className="col-md-4">
+                    <Locations />
+                </div>
+                <div className="col-md-4">
+                    <VehicleConditions />
+                </div>
 
-			</div>
-		)
-	}
+            </div>
+        )
+    }
 }

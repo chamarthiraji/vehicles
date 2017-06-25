@@ -7,39 +7,39 @@ import json
 
 @app.route('/addlocation', methods=['POST', 'GET'])
 def addlocation():
-	# http://127.0.0.1:53000/addlocation
-	print("inside addlocation")
-	data = request.get_json() or request.form
-	print("response : "+ json.dumps(data))
-	print("response addlocation: "+ data['location'])
-	locationtype = Location(location=data['location'])
-	db.session.add(locationtype)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)  
+    # http://127.0.0.1:53000/addlocation
+    print("inside addlocation")
+    data = request.get_json() or request.form
+    print("response : "+ json.dumps(data))
+    print("response addlocation: "+ data['location'])
+    locationtype = Location(location=data['location'])
+    db.session.add(locationtype)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )  
  
-	return app.response_class(json.dumps(response2), content_type='application/json')
+    return app.response_class(json.dumps(response2), content_type='application/json')
   
    
 @app.route('/listlocationtype', methods=['POST', 'GET'])
 def listlocationtype():
-	# http://127.0.0.1:53000/listservicetypes
-	print("inside listlocationtype")
-	location_list = []
+    # http://127.0.0.1:53000/listservicetypes
+    print("inside listlocationtype")
+    location_list = []
 
-	locationtype = db.session.query(Location)
-	for llocationtype in locationtype:
-		location_list.append({
+    locationtype = db.session.query(Location)
+    for llocationtype in locationtype:
+        location_list.append({
             "id":llocationtype.id,
-			"location":llocationtype.location
-			})     
+            "location":llocationtype.location
+            })     
  
-	return app.response_class(json.dumps(location_list), content_type='application/json')
+    return app.response_class(json.dumps(location_list), content_type='application/json')
   
     # return render_template('add.html')
 

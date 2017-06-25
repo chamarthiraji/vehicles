@@ -8,41 +8,41 @@ import json
 
 @app.route('/addvehicletype', methods=['POST', 'GET'])
 def addvehicletype():
-	# http://127.0.0.1:53000/addvehicletype
-	print("inside addvehicletype")
-	data = request.get_json() or request.form
-	print("response : "+ json.dumps(data))
-	print("response serviceName: "+ data['vehicleType'])
-	vehicleType = VehicleType(data['vehicleType'],
-		data['vdisplayText'])
-	db.session.add(vehicleType)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)  
+    # http://127.0.0.1:53000/addvehicletype
+    print("inside addvehicletype")
+    data = request.get_json() or request.form
+    print("response : "+ json.dumps(data))
+    print("response serviceName: "+ data['vehicleType'])
+    vehicleType = VehicleType(data['vehicleType'],
+        data['vdisplayText'])
+    db.session.add(vehicleType)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )  
  
-	return app.response_class(json.dumps(response2), content_type='application/json')
+    return app.response_class(json.dumps(response2), content_type='application/json')
   
    
 @app.route('/listvehicletypes', methods=['POST', 'GET'])
 def listvehicletypes():
-	# http://127.0.0.1:53000/listservicetypes
-	print("inside listvehicletypes")
-	vehicle_type_list = []
+    # http://127.0.0.1:53000/listservicetypes
+    print("inside listvehicletypes")
+    vehicle_type_list = []
 
-	vehicletype = db.session.query(VehicleType)
-	for lvehicletype in vehicletype:
-		vehicle_type_list.append({
-			"id":lvehicletype.id,
-			"type":lvehicletype.type,
-			"display_text":lvehicletype.display_text
-			})     
+    vehicletype = db.session.query(VehicleType)
+    for lvehicletype in vehicletype:
+        vehicle_type_list.append({
+            "id":lvehicletype.id,
+            "type":lvehicletype.type,
+            "display_text":lvehicletype.display_text
+            })     
  
-	return app.response_class(json.dumps(vehicle_type_list), content_type='application/json')
+    return app.response_class(json.dumps(vehicle_type_list), content_type='application/json')
   
     # view for editing vehicle types
 @app.route('/editvehicletypes', methods=['POST', 'GET'])

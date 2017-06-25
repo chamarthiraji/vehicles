@@ -8,39 +8,39 @@ import json
 
 @app.route('/addvehiclecondition', methods=['POST', 'GET'])
 def addvehiclecondition():
-	# http://127.0.0.1:53000/addvehiclecondition
-	print("inside addvehiclecondition")
-	data = request.get_json() or request.form
-	print("response : "+ json.dumps(data))
-	print("response vehiclecondition: "+ data['condition'])
-	vehiclecondition = VehicleCondition(condition=data['condition'])
-	db.session.add(vehiclecondition)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)  
+    # http://127.0.0.1:53000/addvehiclecondition
+    print("inside addvehiclecondition")
+    data = request.get_json() or request.form
+    print("response : "+ json.dumps(data))
+    print("response vehiclecondition: "+ data['condition'])
+    vehiclecondition = VehicleCondition(condition=data['condition'])
+    db.session.add(vehiclecondition)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )  
  
-	return app.response_class(json.dumps(response2), content_type='application/json')
+    return app.response_class(json.dumps(response2), content_type='application/json')
   
    
 @app.route('/listvehiclecondition', methods=['POST', 'GET'])
 def listvehiclecondition():
-	# http://127.0.0.1:53000/listvehiclecondition
-	print("inside listvehiclecondition")
-	vehicle_condition_list = []
+    # http://127.0.0.1:53000/listvehiclecondition
+    print("inside listvehiclecondition")
+    vehicle_condition_list = []
 
-	vehiclecondition = db.session.query(VehicleCondition)
-	for lvehiclecondition in vehiclecondition:
-		vehicle_condition_list.append({
+    vehiclecondition = db.session.query(VehicleCondition)
+    for lvehiclecondition in vehiclecondition:
+        vehicle_condition_list.append({
             "id":lvehiclecondition.id,
-			"condition":lvehiclecondition.condition
-			})     
+            "condition":lvehiclecondition.condition
+            })     
  
-	return app.response_class(json.dumps(vehicle_condition_list), content_type='application/json')
+    return app.response_class(json.dumps(vehicle_condition_list), content_type='application/json')
   
   # view for editing vehicle types
 @app.route('/editvehiclecondition', methods=['POST', 'GET'])

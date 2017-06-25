@@ -1,26 +1,26 @@
 
 h2 {
-	border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 form label {
-	display: block;
+    display: block;
 }
 
 form button {
-	margin-left: 5px;
+    margin-left: 5px;
 }
 
 .vehicleType {
-	/*font-size: 20px; */
+    /*font-size: 20px; */
 }
 
 body{
-	 background-color: lightblue;
+     background-color: lightblue;
 }
 
 .serviceType {
-	float:right;
+    float:right;
 }
 
 .carouselImg img {
@@ -30,6 +30,6 @@ body{
 }
 
 #myImg {
-	width:50px;
-	height:50px;
+    width:50px;
+    height:50px;
 }

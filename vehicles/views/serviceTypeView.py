@@ -13,43 +13,43 @@ import json
 
 @app.route('/addservicetype', methods=['POST', 'GET'])
 def addservicetype():
-	# http://127.0.0.1:53000/addservicetype
-	print("inside addservicetype")
-	data = request.get_json() or request.form
-	print("response : "+ json.dumps(data))
-	print("response serviceName: "+ data['serviceName'])
-	servicetype = ServiceType(data['serviceName'],
-		data['sDisplayName'],
-		data['serviceDescri'])
-	db.session.add(servicetype)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)
+    # http://127.0.0.1:53000/addservicetype
+    print("inside addservicetype")
+    data = request.get_json() or request.form
+    print("response : "+ json.dumps(data))
+    print("response serviceName: "+ data['serviceName'])
+    servicetype = ServiceType(data['serviceName'],
+        data['sDisplayName'],
+        data['serviceDescri'])
+    db.session.add(servicetype)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )
 
-	return app.response_class(json.dumps(response2), content_type='application/json')
+    return app.response_class(json.dumps(response2), content_type='application/json')
 
 
 @app.route('/listservicetypes', methods=['POST', 'GET'])
 def listservicetypes():
-	# http://127.0.0.1:53000/listservicetypes
-	print("inside listservicetypes")
-	service_type_list = []
+    # http://127.0.0.1:53000/listservicetypes
+    print("inside listservicetypes")
+    service_type_list = []
 
-	servicetype = db.session.query(ServiceType)
-	for lservicetype in servicetype:
-		service_type_list.append({
-			"id":lservicetype.id,
-			"name":lservicetype.name,
-			"display_name":lservicetype.display_name,
-			"description":lservicetype.description
-			})
+    servicetype = db.session.query(ServiceType)
+    for lservicetype in servicetype:
+        service_type_list.append({
+            "id":lservicetype.id,
+            "name":lservicetype.name,
+            "display_name":lservicetype.display_name,
+            "description":lservicetype.description
+            })
 
-	return app.response_class(json.dumps(service_type_list), content_type='application/json')
+    return app.response_class(json.dumps(service_type_list), content_type='application/json')
 
  # view for editing service types
 @app.route('/editservicetypes', methods=['POST', 'GET'])
@@ -92,15 +92,15 @@ def editservicetypes():
     if ( recexists == 0):
 
         servicetypes = ServiceType(
-			data['serviceName'],
+            data['serviceName'],
             data['sDisplayName'],
             data['sDescription']
-		)
+        )
         db.session.add(servicetypes)
 
     exception_info=0
 
-	try:
+    try:
         db.session.commit()
     except exc.IntegrityError as err:
         print("exception")

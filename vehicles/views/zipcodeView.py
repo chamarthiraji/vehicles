@@ -7,67 +7,67 @@ import json
 
 @app.route('/addzipcode', methods=['POST', 'GET'])
 def addzipcode():
-	# http://127.0.0.1:53000/addzipcode
-	print("inside addzipcode")
-	data = request.get_json() or request.form
-	print("request : "+ json.dumps(data))
-	print("request addzipcode: "+ data['zipcode'])
-	tmp_price_inc = int(data['priceIncrease'])
-	print("tmp_price_inc: "+data['priceIncrease'])
-	zipcode = ZipCode(zip_code=data['zipcode'],
-		price_increase=tmp_price_inc)
-	db.session.add(zipcode)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)  
+    # http://127.0.0.1:53000/addzipcode
+    print("inside addzipcode")
+    data = request.get_json() or request.form
+    print("request : "+ json.dumps(data))
+    print("request addzipcode: "+ data['zipcode'])
+    tmp_price_inc = int(data['priceIncrease'])
+    print("tmp_price_inc: "+data['priceIncrease'])
+    zipcode = ZipCode(zip_code=data['zipcode'],
+        price_increase=tmp_price_inc)
+    db.session.add(zipcode)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )  
  
-	return app.response_class(json.dumps(response2), content_type='application/json')
+    return app.response_class(json.dumps(response2), content_type='application/json')
   
    
 @app.route('/listzipcode', methods=['POST', 'GET'])
 def listzipcode():
-	# http://127.0.0.1:53000/listzipcode
-	print("inside listzipcode")
-	zipcode_list = []
+    # http://127.0.0.1:53000/listzipcode
+    print("inside listzipcode")
+    zipcode_list = []
 
-	zipcode = db.session.query(ZipCode)
-	for lzipCode in zipcode:
-		zipcode_list.append({
+    zipcode = db.session.query(ZipCode)
+    for lzipCode in zipcode:
+        zipcode_list.append({
             "id":lzipCode.id,
-			"zip_code":lzipCode.zip_code,
-			"price_increase":lzipCode.price_increase
-			})     
+            "zip_code":lzipCode.zip_code,
+            "price_increase":lzipCode.price_increase
+            })     
  
-	return app.response_class(json.dumps(zipcode_list), content_type='application/json')
+    return app.response_class(json.dumps(zipcode_list), content_type='application/json')
   
 # Updating Zipcode  
 @app.route('/updatezipcode', methods=['POST', 'GET'])
 def updatezipcode():
-	# http://127.0.0.1:53000/addzipcode
-	print("inside addzipcode")
-	data = request.get_json() or request.form
-	print("request : "+ json.dumps(data))
-	print("request addzipcode: "+ data['zipcode'])
-	tmp_price_inc = int(data['priceIncrease'])
-	print("tmp_price_inc: "+data['priceIncrease'])
-	zipcode = ZipCode(zip_code=data['zipcode'],
-		price_increase=tmp_price_inc)
-	db.session.add(zipcode)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)  
+    # http://127.0.0.1:53000/addzipcode
+    print("inside addzipcode")
+    data = request.get_json() or request.form
+    print("request : "+ json.dumps(data))
+    print("request addzipcode: "+ data['zipcode'])
+    tmp_price_inc = int(data['priceIncrease'])
+    print("tmp_price_inc: "+data['priceIncrease'])
+    zipcode = ZipCode(zip_code=data['zipcode'],
+        price_increase=tmp_price_inc)
+    db.session.add(zipcode)
+    db.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )  
  
-	return app.response_class(json.dumps(response2), content_type='application/json')
+    return app.response_class(json.dumps(response2), content_type='application/json')
 
 # view for editing service types
 @app.route('/editzipcode', methods=['POST', 'GET'])

@@ -1,97 +1,97 @@
 
 (1) Running the App
 
-	(a) Use the below command to create database tables
-		This is a one time step
+    (a) Use the below command to create database tables
+        This is a one time step
 
-		python db.py
+        python db.py
 
-	(b) npm run build
+    (b) npm run build
 
-	(c) Python Flask App  -- Start the python server
+    (c) Python Flask App  -- Start the python server
 
-		python vehicle_app.py
+        python vehicle_app.py
 
 (2) Use the application using the browser
 
-		http://127.0.0.1:53000/
+        http://127.0.0.1:53000/
 
 (3) Pre-requisites:
 
-	(a) Make sure you have the following installed
+    (a) Make sure you have the following installed
 
-		(a.1) Python
-		(a.2) MySQL
-		(a.3) Flask
+        (a.1) Python
+        (a.2) MySQL
+        (a.3) Flask
 
-	  You may use the following command for the python module 
-			installations
+      You may use the following command for the python module 
+            installations
 
-		Install Flask using Pip pip install Flask. The following command can be used.
-			pip install -r requirements.txt
+        Install Flask using Pip pip install Flask. The following command can be used.
+            pip install -r requirements.txt
 
-				This command will install the following python modules
-					Flask==0.10.1
-					PyMySQL
-					requests
-					configparser
-					GoogleAppEngineCloudStorageClient
-					Flask-Migrate
-					Flask-SQLAlchemy
-					mom
-					suds-jurko
-					boto
-					httplib2
-					oauth2client>=1.5.2
-					pyOpenSSL>=0.13
-					SocksiPy-branch==1.01
-					retry_decorator>=1.0.0
-					six>=1.6.1
-					gcs-oauth2-boto-plugin
-					google-api-python-client
-					lib
+                This command will install the following python modules
+                    Flask==0.10.1
+                    PyMySQL
+                    requests
+                    configparser
+                    GoogleAppEngineCloudStorageClient
+                    Flask-Migrate
+                    Flask-SQLAlchemy
+                    mom
+                    suds-jurko
+                    boto
+                    httplib2
+                    oauth2client>=1.5.2
+                    pyOpenSSL>=0.13
+                    SocksiPy-branch==1.01
+                    retry_decorator>=1.0.0
+                    six>=1.6.1
+                    gcs-oauth2-boto-plugin
+                    google-api-python-client
+                    lib
 
     (b) Install the npm dependencies
-    		You may use the following steps
+            You may use the following steps
 
-			npm install
+            npm install
 
-		(c) configuration information:
+        (c) configuration information:
 
-			config.py contains database user information
-			it can take config data from environment variables
-				as well
+            config.py contains database user information
+            it can take config data from environment variables
+                as well
 
-		(d) get an account from 
-			https://cloud.google.com/storage/docs/json_api/
+        (d) get an account from 
+            https://cloud.google.com/storage/docs/json_api/
 
-		(e) Google Cloud SDK
+        (e) Google Cloud SDK
 
-				install https://cloud.google.com/sdk/docs/
+                install https://cloud.google.com/sdk/docs/
 
-				https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
+                https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
 
-				gcloud components install --help
-				gcloud components list
-				gcloud auth login
-				gsutil config -a
-				gcloud components install app-engine-python
-				gcloud components install app-engine-python-extras
+                gcloud components install --help
+                gcloud components list
+                gcloud auth login
+                gsutil config -a
+                gcloud components install app-engine-python
+                gcloud components install app-engine-python-extras
 
-		(f) DO one of the following
-   		(f.1) add/edit the below to .boto file
-   			under section [Credentials]
+        (f) DO one of the following
+           (f.1) add/edit the below to .boto file
+               under section [Credentials]
 
-		   	export gs_access_key_id=*
-				export gs_secret_access_key=*
+               export gs_access_key_id=*
+                export gs_secret_access_key=*
 
-   			or
+               or
 
-   		(f.2) define OS ( operating system ) environment variable
-   		using export in a shell
+           (f.2) define OS ( operating system ) environment variable
+           using export in a shell
 
-   			or in the OS environment options
+               or in the OS environment options
 
-				export gs_access_key_id = *
-				export gs_secret_access_key = *
+                export gs_access_key_id = *
+                export gs_secret_access_key = *
 
