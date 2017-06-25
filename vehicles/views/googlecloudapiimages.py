@@ -1,10 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #!/usr/bin/python
 
 # googlecloudapiimages.py
 
 from flask import render_template, request, flash, redirect, url_for
 
-from __init__ import app, db, config
+# from __init__ import app, db, config
+from vehicles.app import app
 import sys
 import json
 import boto
@@ -45,23 +49,39 @@ LOCAL_FILE = 'file'
 CLIENT_ID = 'your client id'
 CLIENT_SECRET = 'your client secret'
 
-cfgprojectid = config.get('GoogleCloudInfo', 'PROJECT_ID')
-cfgclientid = config.get('GoogleCloudInfo', 'CLIENT_ID')
-cfgclientsecret = config.get('GoogleCloudInfo', 'CLIENT_SECRET')
-cfgbucketname = config.get('GoogleCloudInfo', 'BUCKET_NAME')
-cfguri = config.get('GoogleCloudInfo', 'URI')
-cfgproject_num = config.get('GoogleCloudInfo', 'PROJECT_NUM')
-cfglocaldir = config.get('GoogleCloudInfo', 'GC_LOCAL_DIR')
+#cfgprojectid = config.get('GoogleCloudInfo', 'PROJECT_ID')
+#cfgclientid = config.get('GoogleCloudInfo', 'CLIENT_ID')
+#cfgclientsecret = config.get('GoogleCloudInfo', 'CLIENT_SECRET')
+#cfgbucketname = config.get('GoogleCloudInfo', 'BUCKET_NAME')
+#cfguri = config.get('GoogleCloudInfo', 'URI')
+#cfgproject_num = config.get('GoogleCloudInfo', 'PROJECT_NUM')
+#cfglocaldir = config.get('GoogleCloudInfo', 'GC_DOWLOADED_LOCAL_DIR')
 
 # below will be used to get environment variable data
 # used if exists in place of the above
-tmpprojectid = os.environ.get('GOOGLECLOUD_PROJECT_ID', cfgprojectid)
-tmpclientid = os.environ.get('GOOGLECLOUD_CLIENT_ID', cfgclientid)
-tmpclientsecret = os.environ.get('GOOGLECLOUD_CLIENT_SECRET', cfgclientsecret)
-tmpbucketname = os.environ.get('GOOGLECLOUD_BUCKET_NAME', cfgbucketname)
-tmpuri = os.environ.get('GOOGLECLOUD_URI', cfguri)
-tmpproject_num = os.environ.get('GOOGLECLOUD_PROJECT_NUM', cfgproject_num)
-tmplocaldir = os.environ.get('GOOGLECLOUD_GC_LOCAL_DIR', cfglocaldir)
+#tmpprojectid = os.environ.get('GOOGLECLOUD_PROJECT_ID', cfgprojectid)
+#tmpclientid = os.environ.get('GOOGLECLOUD_CLIENT_ID', cfgclientid)
+#tmpclientsecret = os.environ.get('GOOGLECLOUD_CLIENT_SECRET', cfgclientsecret)
+#tmpbucketname = os.environ.get('GOOGLECLOUD_BUCKET_NAME', cfgbucketname)
+#tmpuri = os.environ.get('GOOGLECLOUD_URI', cfguri)
+#tmpproject_num = os.environ.get('GOOGLECLOUD_PROJECT_NUM', cfgproject_num)
+#tmplocaldir = os.environ.get('GOOGLECLOUD_GC_DOWLOADED_LOCAL_DIR', cfglocaldir)
+
+cfgprojectid = app.config['GC_PROJECT_ID']
+cfgclientid = app.config['GC_CLIENT_ID']
+cfgclientsecret = app.config['GC_CLIENT_SECRET']
+cfgbucketname = app.config['GC_BUCKET_NAME']
+cfguri = app.config['GC_URI']
+cfgproject_num = app.config['GC_PROJECT_NUM']
+cfglocaldir = app.config['GC_DOWLOADED_LOCAL_DIR']
+
+tmpprojectid = os.environ.get('ENV_GC_PROJECT_ID', cfgprojectid)
+tmpclientid = os.environ.get('ENV_GC_CLIENT_ID', cfgclientid)
+tmpclientsecret = os.environ.get('ENV_GC_CLIENT_SECRET', cfgclientsecret)
+tmpbucketname = os.environ.get('ENV_GC_BUCKET_NAME', cfgbucketname)
+tmpuri = os.environ.get('ENV_GC_URI', cfguri)
+tmpproject_num = os.environ.get('ENV_GC_PROJECT_NUM', cfgproject_num)
+tmplocaldir = os.environ.get('ENV_GC_DOWLOADED_LOCAL_DIR', cfglocaldir)
 
 @app.route('/downloadGCImages', methods=['POST', 'GET'])
 def downloadGCImages():

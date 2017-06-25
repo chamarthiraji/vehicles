@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import inspect, os, sys
 
 from flask import Flask
@@ -20,6 +23,8 @@ class RegexConverter(BaseConverter):
 
 def generate_application(config=None):
     """Generate an application from a given configuration file."""
+    print("generate_application : "+__name__)
+    
     application = Flask(__name__)
     application.config.from_object(config or 'vehicles.config.dev')
     CORS(application, send_wildcard=True)

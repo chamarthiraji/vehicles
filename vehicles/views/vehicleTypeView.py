@@ -1,48 +1,58 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import render_template, request, flash, redirect, url_for
-from __init__ import app, db
-from __init__ import exc
+# from __init__ import app, db
+# from __init__ import exc
+
+from vehicles.app import app
+from vehicles.extensions import DB, exc
+from vehicles.models.models import VehicleType
 
 import sys
-from models.vehicleType import VehicleType
+# from models.vehicleType import VehicleType
 import json
+
 
 @app.route('/addvehicletype', methods=['POST', 'GET'])
 def addvehicletype():
-	# http://127.0.0.1:53000/addvehicletype
-	print("inside addvehicletype")
-	data = request.get_json() or request.form
-	print("response : "+ json.dumps(data))
-	print("response serviceName: "+ data['vehicleType'])
-	vehicleType = VehicleType(data['vehicleType'],
-		data['vdisplayText'])
-	db.session.add(vehicleType)
-	db.session.commit()
-	flash('New entry was successfully posted')
-	response2 = (
-		{
-			"status": True,
-			"description": "New entry was successfully posted"
-		}
-	)  
- 
-	return app.response_class(json.dumps(response2), content_type='application/json')
-  
-   
+    # http://127.0.0.1:53000/addvehicletype
+    print("inside addvehicletype")
+    data = request.get_json() or request.form
+    print("response : " + json.dumps(data))
+    print("response serviceName: " + data['vehicleType'])
+    vehicleType = VehicleType(data['vehicleType'],
+        data['vdisplayText'])
+    DB.session.add(vehicleType)
+    DB.session.commit()
+    flash('New entry was successfully posted')
+    response2 = (
+        {
+            "status": True,
+            "description": "New entry was successfully posted"
+        }
+    )
+
+    return app.response_class(json.dumps(response2), content_type='application/json')
+
+
 @app.route('/listvehicletypes', methods=['POST', 'GET'])
 def listvehicletypes():
-	# http://127.0.0.1:53000/listservicetypes
-	print("inside listvehicletypes")
-	vehicle_type_list = []
+    # http://127.0.0.1:53000/listservicetypes
+    print("inside listvehicletypes")
+    vehicle_type_list = []
 
-	vehicletype = db.session.query(VehicleType)
-	for lvehicletype in vehicletype:
-		vehicle_type_list.append({
-			"id":lvehicletype.id,
-			"type":lvehicletype.type,
-			"display_text":lvehicletype.display_text
-			})     
+    vehicletype = DB.session.query(VehicleType)
+    # print("no filtering")
+
+    for lvehicletype in vehicletype:
+        vehicle_type_list.append({
+            "id":lvehicletype.id,
+            "type":lvehicletype.type,
+            "display_text":lvehicletype.display_text
+            })     
  
-	return app.response_class(json.dumps(vehicle_type_list), content_type='application/json')
+    return app.response_class(json.dumps(vehicle_type_list), content_type='application/json')
   
     # view for editing vehicle types
 @app.route('/editvehicletypes', methods=['POST', 'GET'])
@@ -55,7 +65,7 @@ def editvehicletypes():
     recexists = 0
     db_last_apicall_date = ""
 
-    l_avail_serv = db.session.query(VehicleType).filter_by(id=data['id'])
+    l_avail_serv = DB.session.query(VehicleType).filter_by(id=data['id'])
 
     response2 = ""
 
@@ -85,16 +95,16 @@ def editvehicletypes():
 
         vehicletypes = VehicleType(data['vehicleType'],
                                               data['vdisplayText'])
-        db.session.add(vehicletypes) 
+        DB.session.add(vehicletypes) 
 
     exceptio_info=0
     try:
 
-        db.session.commit()
+        DB.session.commit()
 
     except exc.IntegrityError as err:
         print("exception")
-        db.session.rollback()
+        DB.session.rollback()
         if "Duplicate entry" in str(err):
             print("Duplicate exception")
             exceptio_info = 1
@@ -140,7 +150,7 @@ def deletevehicletype():
     print("deletevehicletype input id: " + str(data['id']))
     try:
         VehicleType.query.filter_by(id=data['id']).delete()
-        db.session.commit()
+        DB.session.commit()
     except Exception: 
         print("No VehicleType record in DB")
         pass

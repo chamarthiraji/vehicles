@@ -1,9 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy import Table, Column, Integer, String, VARCHAR, LargeBinary, UnicodeText
 
 from vehicles.extensions import DB
-
 
 class Location(DB.Model):
 

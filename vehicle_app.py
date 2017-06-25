@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # from flask import Flask, render_template
 from flask import render_template
 import logging
@@ -12,20 +14,23 @@ import zlib
 import time
 import datetime
 from urllib.request import urlopen
-
+# from flask import current_app as app
+# import config
 import boto
 
 import sys
-from __init__ import app, config
+# sys.path.append("vehicles/")
+# from vehicles.__init__ import app, config
+from vehicles.app import app
 
-from vehicleapp.views import googlecloudapiimages
-from vehicleapp.views import serviceTypeView
-from vehicleapp.views import vehicleTypeView
-from vehicleapp.views import zipcodeView
-from vehicleapp.views import locationView
-from vehicleapp.views import vehicleConditionView
-from vehicleapp.views import availableServicesView
-from vehicleapp.views import specialServicesView
+from vehicles.views import googlecloudapiimages
+from vehicles.views import serviceTypeView
+from vehicles.views import vehicleTypeView
+from vehicles.views import zipcodeView
+from vehicles.views import locationView
+from vehicles.views import vehicleConditionView
+from vehicles.views import availableServicesView
+from vehicles.views import specialServicesView
 
 import shutil
 import tempfile
@@ -34,12 +39,18 @@ import tempfile
 # import gcs_oauth2_boto_plugin
 
 # get local config data
-cfgserverport = config.get('PythonServerData',
-    'VEHICLE_SERVICE_PORT')
-
+# cfgserverport = app.config.get('PythonServerData',
+#   'VEHICLE_SERVICE_PORT')
+cfgserverport = app.config['VEHICLE_SERVICE_PORT']
+print("cfgserverport:"+str(cfgserverport))
 # Use server environment config data if available.
-tmpserverport = int(os.environ.get('VEHICLE_SERVICE_PORT2',
-    cfgserverport))
+tmpserverport = int(os.environ.get('ENV_VEHICLE_SERVICE_PORT',
+   cfgserverport))
+
+# tmpserverport = int(os.environ.get('ENV_VEHICLE_SERVICE_PORT'))
+print("tmpserverport : "+str(tmpserverport))
+
+print(" root  "+__name__)
 
 @app.route('/')
 def index():

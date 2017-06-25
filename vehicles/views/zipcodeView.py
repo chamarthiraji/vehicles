@@ -1,8 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import render_template, request, flash, redirect, url_for
-from __init__ import app, db
-from __init__ import exc
+# from __init__ import app, db
+# from __init__ import exc
+
+from vehicles.app import app
+from vehicles.extensions import DB, exc
+from vehicles.models.models import ZipCode
+
 import sys
-from models.zipcode import ZipCode
+# from models.zipcode import ZipCode
 import json
 
 @app.route('/addzipcode', methods=['POST', 'GET'])
@@ -16,8 +24,8 @@ def addzipcode():
 	print("tmp_price_inc: "+data['priceIncrease'])
 	zipcode = ZipCode(zip_code=data['zipcode'],
 		price_increase=tmp_price_inc)
-	db.session.add(zipcode)
-	db.session.commit()
+	DB.session.add(zipcode)
+	DB.session.commit()
 	flash('New entry was successfully posted')
 	response2 = (
 		{
@@ -35,7 +43,7 @@ def listzipcode():
 	print("inside listzipcode")
 	zipcode_list = []
 
-	zipcode = db.session.query(ZipCode)
+	zipcode = DB.session.query(ZipCode)
 	for lzipCode in zipcode:
 		zipcode_list.append({
             "id":lzipCode.id,
@@ -57,8 +65,8 @@ def updatezipcode():
 	print("tmp_price_inc: "+data['priceIncrease'])
 	zipcode = ZipCode(zip_code=data['zipcode'],
 		price_increase=tmp_price_inc)
-	db.session.add(zipcode)
-	db.session.commit()
+	DB.session.add(zipcode)
+	DB.session.commit()
 	flash('New entry was successfully posted')
 	response2 = (
 		{
@@ -78,7 +86,7 @@ def editzipcode():
     print("editzipcode input : " + json.dumps(data))
     print("editzipcode input serviceTypeId: " + str(data['zipcode']))
     recexists = 0
-    l_zipcode = db.session.query(ZipCode).filter_by(id=data['id'])
+    l_zipcode = DB.session.query(ZipCode).filter_by(id=data['id'])
 
     response2 = ""
 
@@ -108,16 +116,16 @@ def editzipcode():
 
         zipcode = ZipCode(zip_code=data['zipcode'],
                             price_increase=data['priceIncrease'])
-        db.session.add(zipcode)     
+        DB.session.add(zipcode)     
 
     exceptio_info=0
     try:
 
-        db.session.commit()
+        DB.session.commit()
 
     except exc.IntegrityError as err:
         print("exception")
-        db.session.rollback()
+        DB.session.rollback()
         if "Duplicate entry" in str(err):
             print("Duplicate exception")
             exceptio_info = 1
@@ -163,7 +171,7 @@ def deleteZipcode():
     print("deleteZipcode input id: " + str(data['id']))
     try:
         ZipCode.query.filter_by(id=data['id']).delete()
-        db.session.commit()
+        DB.session.commit()
     except Exception: 
         print("No Zipcode record in DB")
         pass
