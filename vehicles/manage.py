@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from application import generate_application, MIGRATE
 from flask_migrate import MigrateCommand
 from flask_script import Manager
-
 
 MANAGER = Manager(generate_application())
 MANAGER.add_option("-c", "--config", dest="config_module", required=False)

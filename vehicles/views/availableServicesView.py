@@ -1,20 +1,35 @@
-from flask import render_template, request, flash, redirect, url_for
-from __init__ import app, db
-from __init__ import exc
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-from __init__ import config
+from flask import render_template, request, flash, redirect, url_for
+
+#from __init__ import app, db
+#from __init__ import exc
+#from __init__ import config
+
+
+from vehicles.app import app
+from vehicles.extensions import DB, exc
+from vehicles.models.models import AvailableService
+from vehicles.models.models import VehicleType
+from vehicles.models.models import ServiceType
+
 import os
 import urllib
 import io
 import base64
     
-cfglocaldir = config.get('ServerLocalFileData', 'UPLOAD_IMAGE_LOCAL_DIR')
-tmplocaldir = os.environ.get('LFileData_UPLOAD_IMAGE_LOCAL_DIR', cfglocaldir)
+# cfglocaldir = config.get('ServerLocalFileData', 'GC_DOWLOADED_LOCAL_DIR')
+# tmplocaldir = os.environ.get('LFileData_GC_DOWLOADED_LOCAL_DIR', cfglocaldir)
+cfglocaldir = app.config['GC_DOWLOADED_LOCAL_DIR']
+tmplocaldir = os.environ.get('ENV_GC_DOWLOADED_LOCAL_DIR', cfglocaldir)
+cfg2localdir = app.config['GC_TEMP_DOWLOADED_LOCAL_DIR']
+tmp2localdir = os.environ.get('ENV_GC_TEMP_DOWLOADED_LOCAL_DIR', cfg2localdir)
 
 import sys
-from models.availableServices import AvailableServices
-from models.vehicleType import VehicleType
-from models.serviceType import ServiceType
+# from models.availableServices import AvailableServices
+# from models.vehicleType import VehicleType
+# from models.serviceType import ServiceType
 import json
 
 @app.route('/listavailableserviceimages', methods=['POST', 'GET'])
@@ -36,7 +51,7 @@ def listavailableserviceimages():
                 "vehicle_type_id":temp_file_words[0][1:],
                 "service_type_id":temp_file_words[1][1:]
             }
-            temp_asl['before_clean_image'] = tmplocaldir+"/"+temp_file
+            temp_asl['before_clean_image'] = tmp2localdir+"/"+temp_file
             
             tmpimglocalfilename = tmplocaldir+ \
                 "/v"+str(temp_file_words[0][1:])+ \
@@ -44,7 +59,10 @@ def listavailableserviceimages():
                 "_after.png"
             #    "_vc"+str(temp_available_services_list.vehicle_condition_id)+ \
             if os.path.isfile(tmpimglocalfilename) and os.access(tmpimglocalfilename, os.R_OK):
-                temp_asl['after_clean_image'] = tmpimglocalfilename
+                temp_asl['after_clean_image'] = tmp2localdir+ \
+                "/v"+str(temp_file_words[0][1:])+ \
+                "_s"+str(temp_file_words[1][1:])+ \
+                "_after.png"
                 print("after_clean_image:"+temp_asl['after_clean_image'])
             else:
                 temp_asl['after_clean_image'] = ""
@@ -58,7 +76,7 @@ def listavailableserviceimages():
 def listavailableservices():
     # http://127.0.0.1:53000/listavailableservices
     print("inside listavailableservices")
-    available_services_list = db.session.query(AvailableServices)
+    available_services_list = DB.session.query(AvailableService)
     
     temp_list = []
     for temp_available_services_list in available_services_list:
@@ -88,8 +106,8 @@ def deleteavailableservices():
     print("deleteavailableservices input : " + json.dumps(data))
     print("deleteavailableservices input id: " + str(data['id']))
     try:
-        AvailableServices.query.filter_by(id=data['id']).delete()
-        db.session.commit()
+        AvailableService.query.filter_by(id=data['id']).delete()
+        DB.session.commit()
     except Exception: 
         print("No AvailableServices record in DB")
         pass
@@ -184,7 +202,7 @@ def editavailableservices():
     recexists = 0
     db_last_apicall_date = ""
 
-    l_avail_serv = db.session.query(AvailableServices).filter_by(vehicle_type_id=data['vehicleTypeId'],
+    l_avail_serv = DB.session.query(AvailableService).filter_by(vehicle_type_id=data['vehicleTypeId'],
         service_type_id=data['serviceTypeId'],
         vehicle_condition_id=data['vehicleConditionId']  )
 
@@ -217,21 +235,21 @@ def editavailableservices():
         
     if ( recexists == 0):
 
-        availableservices = AvailableServices(data['vehicleTypeId'],
+        availableservices = AvailableService(data['vehicleTypeId'],
                                               data['serviceTypeId'],
                                               data['vehicleConditionId'],
                                               data['basePrice'])
         
-        db.session.add(availableservices)      
+        DB.session.add(availableservices)      
 
     exceptio_info=0
     try:
 
-        db.session.commit()
+        DB.session.commit()
 
     except exc.IntegrityError as err:
         print("exception")
-        db.session.rollback()
+        DB.session.rollback()
         if "Duplicate entry" in str(err):
             print("Duplicate exception")
             exceptio_info = 1

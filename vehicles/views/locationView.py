@@ -1,8 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import render_template, request, flash, redirect, url_for
-from __init__ import app, db
-from __init__ import exc
+#from __init__ import app, db
+#from __init__ import exc
+
+from vehicles.app import app
+from vehicles.extensions import DB, exc
+from vehicles.models.models import Location
+
 import sys
-from models.location import Location
+# from models.location import Location
 import json
 
 @app.route('/addlocation', methods=['POST', 'GET'])
@@ -13,8 +21,8 @@ def addlocation():
 	print("response : "+ json.dumps(data))
 	print("response addlocation: "+ data['location'])
 	locationtype = Location(location=data['location'])
-	db.session.add(locationtype)
-	db.session.commit()
+	DB.session.add(locationtype)
+	DB.session.commit()
 	flash('New entry was successfully posted')
 	response2 = (
 		{
@@ -32,7 +40,7 @@ def listlocationtype():
 	print("inside listlocationtype")
 	location_list = []
 
-	locationtype = db.session.query(Location)
+	locationtype = DB.session.query(Location)
 	for llocationtype in locationtype:
 		location_list.append({
             "id":llocationtype.id,
@@ -55,7 +63,7 @@ def editlocation():
     recexists = 0
     db_last_apicall_date = ""
 
-    l_location = db.session.query(Location).filter_by(id=data['id'])
+    l_location = DB.session.query(Location).filter_by(id=data['id'])
 
     response2 = ""
 
@@ -81,15 +89,15 @@ def editlocation():
 
     if ( recexists == 0):
         temp_location = Location(location=data['location'])
-        db.session.add(temp_location)      
+        DB.session.add(temp_location)      
 
     exceptio_info=0
     try:
-        db.session.commit()
+        DB.session.commit()
 
     except exc.IntegrityError as err:
         print("exception")
-        db.session.rollback()
+        DB.session.rollback()
         if "Duplicate entry" in str(err):
             print("Duplicate exception")
             exceptio_info = 1
@@ -135,7 +143,7 @@ def deletelocation():
     print("deletelocation input id: " + str(data['id']))
     try:
         Location.query.filter_by(id=data['id']).delete()
-        db.session.commit()
+        DB.session.commit()
     except Exception: 
         print("No Location record in DB")
         pass

@@ -1,9 +1,16 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import render_template, request, flash, redirect, url_for
-from __init__ import app, db
-from __init__ import exc
+# from __init__ import app, db
+# from __init__ import exc
+
+from vehicles.app import app
+from vehicles.extensions import DB, exc
+from vehicles.models.models import VehicleCondition
 
 import sys
-from models.vehicleCondition import VehicleCondition
+# from models.vehicleCondition import VehicleCondition
 import json
 
 @app.route('/addvehiclecondition', methods=['POST', 'GET'])
@@ -14,8 +21,8 @@ def addvehiclecondition():
 	print("response : "+ json.dumps(data))
 	print("response vehiclecondition: "+ data['condition'])
 	vehiclecondition = VehicleCondition(condition=data['condition'])
-	db.session.add(vehiclecondition)
-	db.session.commit()
+	DB.session.add(vehiclecondition)
+	DB.session.commit()
 	flash('New entry was successfully posted')
 	response2 = (
 		{
@@ -33,7 +40,7 @@ def listvehiclecondition():
 	print("inside listvehiclecondition")
 	vehicle_condition_list = []
 
-	vehiclecondition = db.session.query(VehicleCondition)
+	vehiclecondition = DB.session.query(VehicleCondition)
 	for lvehiclecondition in vehiclecondition:
 		vehicle_condition_list.append({
             "id":lvehiclecondition.id,
@@ -53,7 +60,7 @@ def editvehiclecondition():
     recexists = 0
     db_last_apicall_date = ""
 
-    l_vehicleCondition = db.session.query(VehicleCondition).filter_by(id=data['id'])
+    l_vehicleCondition = DB.session.query(VehicleCondition).filter_by(id=data['id'])
 
     response2 = ""
 
@@ -81,16 +88,16 @@ def editvehiclecondition():
     if ( recexists == 0):
 
         vehiclecondition = VehicleCondition(condition=data['vehicleCondition'])
-        db.session.add(vehiclecondition)      
+        DB.session.add(vehiclecondition)      
 
     exceptio_info=0
     try:
 
-        db.session.commit()
+        DB.session.commit()
 
     except exc.IntegrityError as err:
         print("exception")
-        db.session.rollback()
+        DB.session.rollback()
         if "Duplicate entry" in str(err):
             print("Duplicate exception")
             exceptio_info = 1
@@ -136,7 +143,7 @@ def deletevehiclecondition():
     print("deletevehiclecondition input id: " + str(data['id']))
     try:
         VehicleCondition.query.filter_by(id=data['id']).delete()
-        db.session.commit()
+        DB.session.commit()
     except Exception: 
         print("No VehicleCondition record in DB")
         pass

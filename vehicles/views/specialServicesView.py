@@ -1,9 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import render_template, request, flash, redirect, url_for
-from __init__ import app, db
-from __init__ import exc
+# from __init__ import app, db
+# from __init__ import exc
+
+from vehicles.app import app
+from vehicles.extensions import DB, exc
+from vehicles.models.models import SpecialService
+
 import sys
 
-from models.specialServices import SpecialServices
+# from models.specialServices import SpecialServices
 import json
 
 
@@ -12,7 +20,7 @@ def listspecialservices():
 # http://127.0.0.1:53000/listspecialservices
   print("inside listspecialservices");
 
-  special_services_list = db.session.query(SpecialServices)
+  special_services_list = DB.session.query(SpecialService)
 
   temp_list = []
   for temp_special_service_list in special_services_list:
@@ -42,8 +50,8 @@ def deletespecialservices():
   print("deletespecialservices input : " + json.dumps(data))
   
   try:
-    SpecialServices.query.filter_by(id=data['id']).delete()
-    db.session.commit()
+    SpecialService.query.filter_by(id=data['id']).delete()
+    DB.session.commit()
   except Exception:
     print(" No SpecialServices record in DB ")
     pass
@@ -75,7 +83,7 @@ def editspecialservices():
 
   recexists = 0
   db_last_apicall_date = ""
-  l_special_service = db.session.query(SpecialServices).filter_by(id=data['ssId'])
+  l_special_service = DB.session.query(SpecialService).filter_by(id=data['ssId'])
 
   response2 = ""
   try:
@@ -102,21 +110,21 @@ def editspecialservices():
         
   if ( recexists == 0):
 
-    specialservices = SpecialServices(
+    specialservices = SpecialService(
                                         data['vehicleTypeId'],
                                         data['QName'],
                                         data['Question'],
                                         data['QPrice'])
-    db.session.add(specialservices)
+    DB.session.add(specialservices)
 
   exceptio_info=0
   try:
 
-    db.session.commit()
+    DB.session.commit()
 
   except exc.IntegrityError as err:
     print("exception")
-    db.session.rollback()
+    DB.session.rollback()
     if "Duplicate entry" in str(err):
       print("Duplicate exception")
       exceptio_info = 1

@@ -4,9 +4,26 @@
 	(a) Use the below command to create database tables
 		This is a one time step
 
+		rm -rf build
+		rm -rf dist
+		rm -rf bin
+		rm -rf entry_point_test
+		rm -rf entry_point
+		virtualenv entry_point
+		source entry_point/Scripts/activate
+		pip install -e .
+		python entry_point/Scripts/activate_this.py
+		python entry_point/Scripts/vehicles-run-script.py
+		# virtualenv entry_point_test
+		# source entry_point_test/Scripts/activate
+		python setup.py build
+		python setup.py install
 		python db.py
 
-	(b) npm run build
+
+	(b) Build the npm packages
+		cd vehicles/
+		npm run build
 
 	(c) Python Flask App  -- Start the python server
 
@@ -50,6 +67,8 @@
 					gcs-oauth2-boto-plugin
 					google-api-python-client
 					lib
+					virtualenv
+					flask-cors
 
     (b) Install the npm dependencies
     		You may use the following steps
@@ -87,11 +106,22 @@
 
    			or
 
-   		(f.2) define OS ( operating system ) environment variable
+   		(f.2) 
+
+   			(1) Update the configuration data in config.py
+
+   			or
+
+   			(2) define OS ( operating system ) environment variable
    		using export in a shell
 
    			or in the OS environment options
 
 				export gs_access_key_id = *
 				export gs_secret_access_key = *
+				export LFileData_UPLOAD_IMAGE_LOCAL_DIR=static/upimages
+				export ENV_VEHICLE_SERVICE_PORT
 
+				(3) Note: If the OS's environment variable exists,
+					the OS environment variable value will be used instead of data from config.py
+					
